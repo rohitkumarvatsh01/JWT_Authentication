@@ -1,5 +1,6 @@
 package com.jwt.jwt;
 
+import java.security.Key;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 
 @Component
 public class JwtHelper {
@@ -27,7 +29,7 @@ public class JwtHelper {
 
     //retrieve expiration date from jwt token
     public Date getExpirationDateFromToken(String token) {
-        return getClaimFromToken(token, Claims::getExpiration);
+        return (Date) getClaimFromToken(token, Claims::getExpiration);
     }
 
     public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
@@ -43,7 +45,7 @@ public class JwtHelper {
     //check if the token has expired
     private Boolean isTokenExpired(String token) {
         final Date expiration = getExpirationDateFromToken(token);
-        return expiration.before(new Date());
+        return expiration.before(new Date(0));
     }
 
     //generate token for user
