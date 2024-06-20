@@ -1,1 +1,2 @@
-###JWT
+JWT
+JSON Web Token
